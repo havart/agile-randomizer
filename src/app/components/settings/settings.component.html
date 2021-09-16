@@ -1,0 +1,129 @@
+<div class="cards-content">
+  <div class="row-container">
+    <mat-card class="grow">
+      <mat-card-content>
+        <h2 class="card-title">Режим рандомайзера:</h2>
+        <mat-radio-group [(ngModel)]="randomizerMode" (change)="saveStateToService()">
+          <mat-radio-button color="primary" [value]="randomizerModes.NEW_MEMBERS_FOR_ITERATION">
+            Выбранные участники не могут быть выбраны на следующей итерации
+          </mat-radio-button>
+          <mat-radio-button color="primary" [value]="randomizerModes.NEW_MEMBERS_FOR_ROLE">
+            Одну роль нельзя занимать два раза подряд
+          </mat-radio-button>
+          <mat-radio-button color="primary" [value]="randomizerModes.NO_RESTRICTIONS">
+            Без ограничений
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="grow">
+      <mat-card-content>
+        <h2 class="card-title">Мгновенный выбор:</h2>
+        <mat-radio-group [(ngModel)]="instantChoice" (change)="saveStateToService()">
+          <mat-radio-button color="primary" [value]="true">Включен</mat-radio-button>
+          <mat-radio-button color="primary" [value]="false">Выключен</mat-radio-button>
+        </mat-radio-group>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="grow">
+      <mat-card-content>
+        <h2 class="card-title">Ссылка для копирования:</h2>
+        <input class="item-input copy-link" [value]="copyLink" disabled />
+        <button
+                    [cbContent]="copyLink"
+                    (click)="copyLinkToClipboard()"
+                    ngxClipboard
+                    mat-flat-button
+                    color="primary"
+                    class="copy-link-button">
+
+                    Скопировать
+                </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="row-container">
+    <mat-card class="grow">
+      <mat-card-content>
+        <div class="inputs-container">
+          <div>
+            <h2 class="card-title">Роли:</h2>
+            <div *ngFor="let role of roles; let i = index; trackBy: trackByFn" class="input-container">
+              <input [value]="role" (keyup)="onRoleValueChange($event, i)" class="item-input" />
+              <button
+                                (click)="removeRole(i)"
+                                mat-flat-button
+                                color="accent"
+                                class="remove-item-button">
+
+                                X
+                            </button>
+            </div>
+          </div>
+          <button
+                        (click)="addFormControlForRole()"
+                        mat-raised-button
+                        color="primary"
+                        class="add-item-button">
+
+                        Добавить
+                    </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="grow">
+      <mat-card-content>
+        <div class="inputs-container">
+          <div>
+            <h2 class="card-title">Команда:</h2>
+            <div *ngFor="let teamMember of teamMembers; let i = index; trackBy: trackByFn" class="input-container">
+              <input [value]="teamMember" (keyup)="onTeamMemberValueChange($event, i)" class="item-input" />
+              <button
+                                (click)="removeTeamMember(i)"
+                                mat-flat-button color="accent"
+                                class="remove-item-button">
+
+                                X
+                            </button>
+            </div>
+          </div>
+          <button
+                        (click)="addFormControlForTeamMember()"
+                        mat-raised-button color="primary"
+                        class="add-item-button">
+
+                        Добавить
+                    </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="grow">
+      <mat-card-content>
+        <h2 class="card-title">Таблица доступных ролей:</h2>
+        <app-roles-table [teamMembers]="teamMembers" [roles]="roles"></app-roles-table>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div class="row-container">
+    <mat-card class="grow">
+      <mat-card-content>
+        <h2 class="card-title">Оповещения с Slack:</h2>
+        <mat-slide-toggle [checked]="isPrivateChannel" (change)="toogleChannelType($event)" class="toggle">Channel is
+          private</mat-slide-toggle>
+        <mat-form-field class="full-width">
+          <input [value]="slackToken" (keyup)="onSlackTokenValueChange($event)" matInput placeholder="Токен для Slack API" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input [value]="slackChannel" (keyup)="onSlackChannelValueChange($event)" matInput placeholder="ID канала" />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="toolbar">
+    <span>Agile Roles Randomizer</span>
+</mat-toolbar>
+
+<div class="nav-container">
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="navigate($event)">
+        <mat-tab label="Рандомайзер"></mat-tab>
+        <mat-tab label="Настройки"></mat-tab>
+    </mat-tab-group>
+    <mat-divider class="divider"></mat-divider>
+</div>
+
+<router-outlet></router-outlet>
